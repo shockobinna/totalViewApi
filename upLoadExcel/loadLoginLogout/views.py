@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def loadData(request):
-    template = loader.get_template('myfirst.html')
+    template = loader.get_template('homepage.html')
     return HttpResponse(template.render())
     # return HttpResponse("Hello world!")
 
@@ -24,6 +24,6 @@ def upload_excel(request):
 
         num_records = load_data_from_excel(excel_file)
         return render(request, 'result.html', {'record_count': num_records})
-    return render(request, 'myfirst.html')
+    return render(request, 'homepage.html')
 
 
