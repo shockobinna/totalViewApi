@@ -16,3 +16,12 @@
             }, false);
         });
 })();
+
+// Function to close error block (alert + table)
+function closeErrorAndTable() {
+    var errorBlock = document.getElementById('errorBlock');
+    if (errorBlock) {
+        errorBlock.style.display = 'none';
+    }
+}
+

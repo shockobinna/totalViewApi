@@ -1,0 +1,183 @@
+/* Style for the upLoadExcel template */
+.card {
+    border-radius: 15px; /* Rounded edges */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #ddd; /* Light border for contrast */
+    background-color: #f9f9f9; /* Light background for the card */
+}
+
+/* Style for the card body */
+.card-body {
+    padding: 20px; /* Padding for inner content */
+}
+
+/* Style for the form elements */
+.form-label {
+    font-weight: bold;
+    color: #555; /* Slightly darker label color */
+}
+
+.form-control {
+    border-radius: 10px; /* Rounded input fields */
+    border: 1px solid #ccc; /* Light border around input */
+    padding: 10px; /* Padding inside input fields */
+    background-color: #fff; /* White background for input fields */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Blue shadow on focus */
+}
+
+/* Button style */
+.btn-primary {
+    background-color: #007bff; /* Primary blue color */
+    border-color: #007bff;
+    padding: 10px 20px; /* Padding inside button */
+    border-radius: 10px; /* Rounded button edges */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-color: #004085;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        width: 100%; /* Full-width card on small screens */
+    }
+    .w-50 {
+        width: 100%; /* Full-width form elements on small screens */
+    }
+}
+/* Style for the error block container */
+#errorBlock {
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow around the block */
+    padding: 15px; /* Padding for inner content */
+    background-color: #fff; /* White background */
+    border: 1px solid #ddd; /* Light border */
+}
+
+/* Style for error alert box */
+.alert-danger {
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Add padding inside the alert box */
+    border: 1px solid #f5c6cb; /* Light border around the error alert */
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Darker text for readability */
+}
+
+/* Style for success alert box */
+.alert-success {
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Add padding inside the alert box */
+    border: 1px solid #c3e6cb; /* Light border around the success alert */
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Darker text for readability */
+}
+
+/* Style for the table inside invalid rows container */
+#invalidRowsContainer table {
+    width: 100%;
+    border-collapse: collapse; /* Merge table borders */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for the table */
+}
+
+#invalidRowsContainer th, #invalidRowsContainer td {
+    padding: 10px; /* Padding inside table cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Light border for table cells */
+}
+
+#invalidRowsContainer th {
+    background-color: #f1f1f1; /* Light gray background for table headers */
+    font-weight: bold;
+}
+
+/* Style for the close button */
+.btn-close {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+/* Hover effect for success and error messages */
+.alert-danger:hover, .alert-success:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}
+
+#loadingSpinner {
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: none; /* Hidden initially */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+}
+#loadingSpinner p {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* homepage template styling*/
+/* Custom card styles */
+.date {
+    width: 100%;  /* Set the card to take up the full width of its container */
+    max-width: 800px;  /* Limit the card's width */
+    margin: 0 auto;  /* Center the card horizontally */
+    border-radius: 8px;  /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow effect */
+    padding: 20px;  /* Internal padding inside the card */
+    height: auto;  /* Allow the card height to adjust based on its content */
+    min-height: 300px;  /* Ensure a minimum height */
+}
+
+/* Make the form inputs and button inline */
+.row.g-3 {
+    display: flex;
+    justify-content: space-between;  /* Ensure inputs and button are evenly spaced */
+}
+
+/* The container for invalid-feedback stays in place under the input */
+.col-md-4.position-relative {
+    position: relative;
+}
+
+/* Feedback message styles */
+.invalid-feedback {
+    position: absolute;
+    top: 100%; /* Places the message directly below the input */
+    left: 0;
+    width: 100%;
+    font-size: 0.875rem;
+    color: #dc3545; /* Red color for the error message */
+    padding-top: 5px; /* Some space between the input and the message */
+}
+
+   /* Button styling */
+   .confirm {
+    width: 100%; /* Make the button take up the remaining width */
+    padding: 10px;
+}
+
+
+
+/* Optional: Add some responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .card {
+        width: 90%;  /* Card takes up more width on small screens */
+    }
+}
+
+
+
