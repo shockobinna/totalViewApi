@@ -17,7 +17,7 @@ function closeSuccessMessage() {
     }
 }
 
-// Auto-close success message after 5 seconds with fade-out
+// Auto-close success message after 10 seconds with fade-out
 window.onload = function () {
     var successMessage = document.getElementById('successMessage');
     if (successMessage) {
@@ -26,7 +26,7 @@ window.onload = function () {
             setTimeout(function () {
                 successMessage.style.display = 'none'; // Hide after fade
             }, 1000); // 500ms to match fade duration
-        }, 10000); // Auto-close after 5 seconds
+        }, 10000); // Auto-close after 10 seconds
     }
 };
 
