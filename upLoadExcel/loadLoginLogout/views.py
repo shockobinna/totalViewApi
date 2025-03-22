@@ -11,19 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
-# def queryDataBase(request):
-#     if request.method == 'POST':
-        
-#     # template = loader.get_template('homepage.html')
-    
-#         # Retrieve the date fields from the request
-#         start_date = request.POST.get('start_date')
-#         end_date = request.POST.get('end_date')
-
-#         print(f"start date: {start_date}, end date: {end_date}")
-#     return render(request, 'homepage.html')
-#     # return HttpResponse("Hello world!")
-
 
 def queryDataBase(request):
     if request.method == 'POST':
@@ -48,6 +35,7 @@ def queryDataBase(request):
                 
                 # Message for both start and end dates
                 message = f"Data found for the dates between {start_date.strftime('%d/%m/%Y')} and {end_date.strftime('%d/%m/%Y')}. Are you sure you want to delete the data?"
+                noData = False
             else:
                 # If only start_date is provided, query for records that match start_date
                 data = TotalViewApiDB.objects.filter(DATA_REFERENCIA=start_date)
@@ -55,19 +43,22 @@ def queryDataBase(request):
                 print(data)
                 # Message for only start date
                 message = f"Data found for the date: {start_date.strftime('%d/%m/%Y')}. Are you sure you want to delete the data?"
+                noData = False
         else:
             # If no start_date is provided (shouldn't happen as it's a must), handle the case
             data = []  # Or you could raise an error or return an empty result
 
             # No valid message for missing start date
             message = "Start date is required. Please provide a valid start date."
+            noData = False
 
         # Check if no data was found
         if not data:
             message = "No data was found for the date(s) provided."
+            noData = True
 
         # Render the results to the template with the message
-        return render(request, 'homepage.html', {'data': data, 'message': message})
+        return render(request, 'homepage.html', {'data': data, 'message': message, 'noData': noData})
     
     # Default rendering if the request is not a POST
     return render(request, 'homepage.html')

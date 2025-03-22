@@ -1,19 +1,44 @@
 
+(function () {
+  'use strict';
+
+  var forms = document.querySelectorAll('.needs-validation');
+  console.log("Forms found:", forms);
+
+  Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+              console.log("Form submitted");
+              if (!form.checkValidity()) {
+                  console.log("Form is invalid");
+                  event.preventDefault();
+                  event.stopPropagation();
+              } else {
+                  console.log("Form is valid");
+              }
+
+              form.classList.add('was-validated');
+          }, false);
+      });
+})();
+
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Check if the modal exists on the page (it will exist only if there is a message)
-    var modal = document.getElementById('myModal');
-    
-    if (modal) {
-      // Show the modal only if it exists and contains a message
-      $('#myModal').modal('show');
-      console.log("called modal")
-    }
-  
-    // Optionally, you can focus on an input or other element if needed inside the modal
-    // $('#myModal').on('shown.bs.modal', function () {
-    //   // Focus on an input field inside the modal if you need (optional)
-    //   $('#myInput').trigger('focus'); // Uncomment if you have an element with id="myInput"
-    // });
-  });
+  var noDataModal = document.getElementById('myModalNoData');
+  var messageModal = document.getElementById('myModalMessage');
+
+  // Check if the modal exists and contains meaningful content
+  if (noDataModal && noDataModal.querySelector(".modal-body p").textContent.trim() !== "") {
+      var modalInstance = new bootstrap.Modal(noDataModal);
+      modalInstance.show();
+      console.log("No Data modal displayed");
+  } else if (messageModal && messageModal.querySelector(".modal-body p").textContent.trim() !== "") {
+      var modalInstance = new bootstrap.Modal(messageModal);
+      modalInstance.show();
+      console.log("Confirmation modal displayed");
+  }
+});
+
+
+
   

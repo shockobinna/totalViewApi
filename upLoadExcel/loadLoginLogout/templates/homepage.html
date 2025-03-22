@@ -45,65 +45,54 @@
             </form>
         </div>
     </div>
-    <!-- {% if message %}
-    
-    <div>
-      <div class="modal" id="myModal" tabindex="-1">
+
+    {% if noData %}
+    <!-- Modal for No Data (Only Close Button) -->
+    <div class="modal fade" id="myModalNoData" tabindex="-1" aria-labelledby="myModalLabelNoData" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabelNoData">No Data Found</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ message }}</p>  <!-- Message will still show, but only a close button is available -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <p>{{message}}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-    
-    {%endif%} -->
 
-    {% if message %}
-    <!-- Modal Triggered by Message -->
-    <div class="modal" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>{{ message }}</p>
-            <!-- Form inside the modal -->
-            <form action="{% url 'confirmDelete' %}" method="post">
-              {% csrf_token %}
-              <!-- Add any hidden fields or data you need to pass -->
-              <input type="hidden" name="modal_data" value="{{ message }}">
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
-            </form>
-          </div>
+{% else %}
+    <!-- Modal for Deletion Confirmation (Two Buttons) -->
+    <div class="modal fade" id="myModalMessage" tabindex="-1" aria-labelledby="myModalLabelMessage" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabelMessage">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ message }}</p>
+                    <form action="{% url 'confirmDelete' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="modal_data" value="{{ message }}">
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  {% endif %}
-
-
-
-    
-
+{% endif %}
 
 
      <!-- Load jQuery before Bootstrap JS -->
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
     <!-- Optional JavaScript; choose one of the two! -->
 
