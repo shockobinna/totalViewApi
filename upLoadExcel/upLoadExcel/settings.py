@@ -126,3 +126,25 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# settings.py
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'INFO',  # Only log INFO level and higher (INFO, WARNING, ERROR, CRITICAL)
+#             'class': 'logging.FileHandler',
+#             'filename': 'app.log',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],  # Only use the file handler, no terminal logging
+#             'level': 'INFO',  # Set the level to INFO to avoid verbose debug logs
+#             'propagate': False,  # Prevent logs from being passed to the root logger
+#         },
+#     },
+# }

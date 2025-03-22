@@ -79,9 +79,11 @@
                     <form action="{% url 'confirmDelete' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="modal_data" value="{{ message }}">
+                        <input type="hidden" name="start_date" value="{{ start_date }}">
+                        <input type="hidden" name="end_date" value="{{ end_date }}">
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         </div>
                     </form>
                 </div>

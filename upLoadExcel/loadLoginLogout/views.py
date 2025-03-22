@@ -4,10 +4,12 @@ from django.template import loader
 from .models import TotalViewApiDB
 from .excel_utils import load_data_from_excel
 from datetime import datetime, timedelta
+import logging
 from django.views.decorators.csrf import csrf_exempt
 
 
-
+# Setup logging
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -17,6 +19,9 @@ def queryDataBase(request):
         # Retrieve the start and end date from the request
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
+        inicio = request.POST.get('start_date')
+        fim= request.POST.get('end_date')
+        print(start_date, end_date)
 
         # Ensure start_date is always provided
         if start_date:
@@ -31,7 +36,7 @@ def queryDataBase(request):
                 # Query the database for date range >= start_date and < end_date
                 data = TotalViewApiDB.objects.filter(DATA_REFERENCIA__gte=start_date, DATA_REFERENCIA__lt=end_date)
                 print(f"Querying from {start_date} to {end_date}")
-                print(data)
+                # print(data)
                 
                 # Message for both start and end dates
                 message = f"Data found for the dates between {start_date.strftime('%d/%m/%Y')} and {end_date.strftime('%d/%m/%Y')}. Are you sure you want to delete the data?"
@@ -40,7 +45,7 @@ def queryDataBase(request):
                 # If only start_date is provided, query for records that match start_date
                 data = TotalViewApiDB.objects.filter(DATA_REFERENCIA=start_date)
                 print(f"Querying for records with start_date: {start_date}")
-                print(data)
+                # print(data)
                 # Message for only start date
                 message = f"Data found for the date: {start_date.strftime('%d/%m/%Y')}. Are you sure you want to delete the data?"
                 noData = False
@@ -58,17 +63,60 @@ def queryDataBase(request):
             noData = True
 
         # Render the results to the template with the message
-        return render(request, 'homepage.html', {'data': data, 'message': message, 'noData': noData})
+        return render(request, 'homepage.html', {'data': data, 'message': message, 'noData': noData, 'start_date': inicio, 'end_date': fim})
     
     # Default rendering if the request is not a POST
     return render(request, 'homepage.html')
 
 
-
 def confirm_delete(request):
-    if request.method == 'POST':
-        print('Action from modal to delete data')
-    return render(request,'homepage.html')
+    try:
+        if request.method == 'POST':
+            # Retrieve start_date and end_date from the POST request
+            start_date = request.POST.get('start_date')
+            end_date = request.POST.get('end_date')
+
+            # logging.info("Received start_date: %s, end_date: %s", start_date, end_date)
+
+            # Step 2: Check if start_date is provided (it should always be provided)
+            if start_date:
+                # logging.debug("Start date is provided. Converting start_date to datetime.")
+                start_date = datetime.strptime(start_date, '%Y-%m-%d')
+
+                # Step 3: Check if end_date is provided
+                if end_date:
+                    # logging.debug("End date is provided. Converting end_date to datetime.")
+                    end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
+                    # Add one day to the end_date to include the whole next day
+                    end_date_plus_one_day = end_date + timedelta(days=1)
+                    # logging.info("Deleting records between start_date: %s and end_date: %s", start_date, end_date_plus_one_day)
+
+                    deleted_count, _ = TotalViewApiDB.objects.filter(
+                        DATA_REFERENCIA__gte=start_date,
+                        DATA_REFERENCIA__lt=end_date_plus_one_day
+                    ).delete()
+
+                    # logging.debug("Deleted %d records.", deleted_count)
+                    print(f"Deleted {deleted_count} records.")
+                else:
+                    # logging.debug("No end_date provided. Deleting records matching start_date only.")
+                    deleted_count, _ = TotalViewApiDB.objects.filter(DATA_REFERENCIA=start_date).delete()
+
+                    # logging.debug("Deleted %d records based on start_date.", deleted_count)
+                    print(f"Deleted {deleted_count} records based on start_date.")
+            else:
+                # logging.warning("Start date is missing. No records deleted.")
+                print("Start date is missing.")
+
+    except Exception as e:
+        # Log the exception if it occurs
+        # logging.error("Error occurred during delete operation: %s", str(e))
+        return HttpResponse("An error occurred while processing your request. Please try again later.", status=500)
+
+    # Step 4: Finalize and return response
+    # logging.info("Delete operation completed successfully.")
+    return render(request, 'homepage.html')
 
 def upload_excel(request):
     if request.method == 'POST' and request.FILES['excel_file']:
