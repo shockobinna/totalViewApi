@@ -44,53 +44,80 @@
                 </div>
             </form>
         </div>
+      </div>
+      <div>
+        <a href="{% url 'uploadExcel' %}" class="btn btn-primary mt-5">Go to Excel upload page</a>
+      </div>
+    
     </div>
 
-    {% if noData %}
-    <!-- Modal for No Data (Only Close Button) -->
-    <div class="modal fade" id="myModalNoData" tabindex="-1" aria-labelledby="myModalLabelNoData" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabelNoData">No Data Found</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ message }}</p>  <!-- Message will still show, but only a close button is available -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
-{% else %}
-    <!-- Modal for Deletion Confirmation (Two Buttons) -->
-    <div class="modal fade" id="myModalMessage" tabindex="-1" aria-labelledby="myModalLabelMessage" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabelMessage">Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ message }}</p>
-                    <form action="{% url 'confirmDelete' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="modal_data" value="{{ message }}">
-                        <input type="hidden" name="start_date" value="{{ start_date }}">
-                        <input type="hidden" name="end_date" value="{{ end_date }}">
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Yes</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+  {% if noData %}
+  <!-- Modal for No Data (Only Close Button) -->
+  <div class="modal fade" id="myModalNoData" tabindex="-1" aria-labelledby="myModalLabelNoData" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabelNoData">No Data Found</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p>{{ message }}</p>  <!-- Show message for no data -->
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{% elif message %}
+  <!-- Modal for Deletion Confirmation (Two Buttons) -->
+  <div class="modal fade" id="myModalMessage" tabindex="-1" aria-labelledby="myModalLabelMessage" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabelMessage">Confirmation</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p>{{ message }}</p> <!-- Show the confirmation message -->
+                  <form action="{% url 'confirmDelete' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="start_date" value="{{ start_date }}">
+                      <input type="hidden" name="end_date" value="{{ end_date }}">
+                      <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary">Yes</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{% elif dataRemoved %}
+  <!-- Modal for Data Removed Successfully -->
+  <div class="modal fade" id="myModalDataRemoved" tabindex="-1" aria-labelledby="myModalLabelDataRemoved" aria-hidden="true" data-redirect="{% url 'uploadExcel' %}">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabelDataRemoved">Data Removed</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p>{{ dataRemoved }}</p>  <!-- Display the data removed message -->
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
 {% endif %}
+
+
 
 
      <!-- Load jQuery before Bootstrap JS -->

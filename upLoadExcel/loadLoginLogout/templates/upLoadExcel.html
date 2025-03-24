@@ -94,7 +94,7 @@
 
     <!-- Success message with auto and manual close and fade effect -->
     {% if success_message %}
-    <div id="successMessage" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <div id="successMessage" data-redirect="{% url 'home' %}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
         <strong>Success!</strong> {{ success_message }}
         <button type="button" class="btn-close" aria-label="Close" onclick="closeSuccessMessage()"></button>
     </div>

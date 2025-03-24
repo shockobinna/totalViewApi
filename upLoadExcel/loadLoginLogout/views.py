@@ -75,6 +75,7 @@ def confirm_delete(request):
             # Retrieve start_date and end_date from the POST request
             start_date = request.POST.get('start_date')
             end_date = request.POST.get('end_date')
+            print(start_date, end_date)
 
             # logging.info("Received start_date: %s, end_date: %s", start_date, end_date)
 
@@ -99,12 +100,16 @@ def confirm_delete(request):
 
                     # logging.debug("Deleted %d records.", deleted_count)
                     print(f"Deleted {deleted_count} records.")
+                    dataRemoved = f"Deleted {deleted_count} records."
+                    return render(request, 'homepage.html', {'dataRemoved': dataRemoved})
                 else:
                     # logging.debug("No end_date provided. Deleting records matching start_date only.")
                     deleted_count, _ = TotalViewApiDB.objects.filter(DATA_REFERENCIA=start_date).delete()
 
                     # logging.debug("Deleted %d records based on start_date.", deleted_count)
                     print(f"Deleted {deleted_count} records based on start_date.")
+                    dataRemoved = f"Deleted {deleted_count} records."
+                    return render(request, 'homepage.html', {'dataRemoved': dataRemoved})
             else:
                 # logging.warning("Start date is missing. No records deleted.")
                 print("Start date is missing.")
@@ -112,7 +117,7 @@ def confirm_delete(request):
     except Exception as e:
         # Log the exception if it occurs
         # logging.error("Error occurred during delete operation: %s", str(e))
-        return HttpResponse("An error occurred while processing your request. Please try again later.", status=500)
+        return HttpResponse(f"An error occurred while processing your request. Please try again later. {str(e)}", status=500)
 
     # Step 4: Finalize and return response
     # logging.info("Delete operation completed successfully.")

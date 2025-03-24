@@ -24,20 +24,46 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  var noDataModal = document.getElementById('myModalNoData');
-  var messageModal = document.getElementById('myModalMessage');
-
-  // Check if the modal exists and contains meaningful content
-  if (noDataModal && noDataModal.querySelector(".modal-body p").textContent.trim() !== "") {
-      var modalInstance = new bootstrap.Modal(noDataModal);
-      modalInstance.show();
-      console.log("No Data modal displayed");
-  } else if (messageModal && messageModal.querySelector(".modal-body p").textContent.trim() !== "") {
-      var modalInstance = new bootstrap.Modal(messageModal);
-      modalInstance.show();
-      console.log("Confirmation modal displayed");
+  // Function to show a modal if there's a valid message inside it
+  function showModal(modalId, logMessage) {
+      var modal = document.getElementById(modalId);
+      if (modal && modal.querySelector(".modal-body p").textContent.trim() !== "") {
+          new bootstrap.Modal(modal).show();
+          console.log(logMessage);
+          return true; // Stops further modal checks
+      }
+      return false;
   }
+
+  // Prioritize showing modals based on the conditions
+  if (showModal('myModalNoData', "No Data modal displayed")) return;
+  if (showModal('myModalMessage', "Confirmation modal displayed")) return;
+  if (showModal('myModalDataRemoved', "Data Removed modal displayed")) return;
+
 });
+
+// Function to handle redirection after Data Removed modal is closed
+function redirectAfterClose() {
+  var dataRemovedModal = document.getElementById('myModalDataRemoved');
+  
+  // Check if the modal exists and retrieve the data-redirect attribute
+  if (dataRemovedModal) {
+    var redirectUrl = dataRemovedModal.getAttribute("data-redirect");
+    if (redirectUrl) {
+      // Redirect to the URL
+      window.location.href = redirectUrl;
+    }
+  }
+}
+
+// Add event listener for the 'hidden.bs.modal' event, which fires when the modal is fully closed
+var dataRemovedModal = document.getElementById('myModalDataRemoved');
+if (dataRemovedModal) {
+  dataRemovedModal.addEventListener("hidden.bs.modal", redirectAfterClose);
+}
+
+
+
 
 
 
