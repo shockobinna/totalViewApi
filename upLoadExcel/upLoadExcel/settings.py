@@ -75,12 +75,30 @@ WSGI_APPLICATION = "upLoadExcel.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'mssql',
+        'NAME': 'TOTALVIEWAEC',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': 'localhost',  # Example: 'localhost' or '127.0.0.1'
+        'PORT': '',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+            'Trusted_connection': 'yes',  # Enables Windows Authentication
+        },
     }
 }
+
+
+
 
 
 # Password validation
