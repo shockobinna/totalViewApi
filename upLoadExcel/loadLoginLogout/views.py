@@ -123,26 +123,52 @@ def confirm_delete(request):
     # logging.info("Delete operation completed successfully.")
     return render(request, 'homepage.html')
 
+# def upload_excel(request):
+#     if request.method == 'POST' and request.FILES['excel_file']:
+#         excel_file = request.FILES['excel_file']
+        
+#         # Call the function to load the data and check for invalid dates
+#         result = load_data_from_excel(excel_file)
+        
+#         if result['status'] == 'error':  # There were invalid rows
+#             print(result['invalid_rows'])
+#             return render(request, 'upLoadExcel.html', {
+#                 'invalid_rows': result['invalid_rows'],
+#                 'error_message': "There are invalid dates in the file. Please correct them and try again."
+#             })
+#         else:
+#             # Success case, show how many rows were inserted
+#             return render(request, 'upLoadExcel.html', {
+#                 'success_message': f"{result['inserted_rows']} rows successfully inserted."
+#             })
+
+#     return render(request, 'upLoadExcel.html')
 def upload_excel(request):
-    if request.method == 'POST' and request.FILES['excel_file']:
+    if request.method == 'POST' and request.FILES.get('excel_file'):
         excel_file = request.FILES['excel_file']
-        
-        # Call the function to load the data and check for invalid dates
+
         result = load_data_from_excel(excel_file)
-        
-        if result['status'] == 'error':  # There were invalid rows
-            print(result['invalid_rows'])
-            return render(request, 'upLoadExcel.html', {
-                'invalid_rows': result['invalid_rows'],
-                'error_message': "There are invalid dates in the file. Please correct them and try again."
-            })
-        else:
-            # Success case, show how many rows were inserted
-            return render(request, 'upLoadExcel.html', {
-                'success_message': f"{result['inserted_rows']} rows successfully inserted."
-            })
+
+        if result['status'] == 'error':
+            # Check if it's a structural error (e.g., missing headers)
+            if 'message' in result:
+                return render(request, 'upLoadExcel.html', {
+                    'error_message': result['message']
+                })
+            # Or it's a data validation error (invalid dates)
+            elif 'invalid_rows' in result:
+                return render(request, 'upLoadExcel.html', {
+                    'invalid_rows': result['invalid_rows'],
+                    'error_message': "There are invalid dates in the file. Please correct them and try again."
+                })
+
+        # If all is good
+        return render(request, 'upLoadExcel.html', {
+            'success_message': f"{result['inserted_rows']} rows successfully inserted."
+        })
 
     return render(request, 'upLoadExcel.html')
+
 
 
 
