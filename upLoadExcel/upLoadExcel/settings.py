@@ -145,24 +145,60 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# settings.py
-
 
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
 #     'handlers': {
 #         'file': {
-#             'level': 'INFO',  # Only log INFO level and higher (INFO, WARNING, ERROR, CRITICAL)
+#             'level': 'DEBUG',  # or INFO if you want less detail
 #             'class': 'logging.FileHandler',
-#             'filename': 'app.log',
+#             'filename': 'upload_excel.log',
 #         },
 #     },
 #     'loggers': {
 #         'django': {
-#             'handlers': ['file'],  # Only use the file handler, no terminal logging
-#             'level': 'INFO',  # Set the level to INFO to avoid verbose debug logs
-#             'propagate': False,  # Prevent logs from being passed to the root logger
+#             'handlers': ['file'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#         # Your app name
+#         'loadLoginLogout': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
 #         },
 #     },
 # }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'upload_excel.log',
+            'formatter': 'verbose',  # Use the formatter defined below
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] [{levelname}] {name}: {message}',
+            'style': '{',  # Required for the new-style formatting
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'loadLoginLogout': {  # Replace with your app's name
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
